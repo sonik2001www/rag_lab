@@ -1,0 +1,30 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+
+# --- Virtualenv ---
+.venv/
+venv/
+env/
+
+# --- Poetry ---
+poetry.toml
+dist/
+build/
+*.egg-info/
+
+# --- PyCharm ---
+.idea/
+*.iml
+
+# --- macOS ---
+.DS_Store
+
+# --- Logs ---
+*.log
+
+# --- Environment variables ---
+.env
+.env.*
+

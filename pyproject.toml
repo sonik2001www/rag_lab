@@ -1,0 +1,31 @@
+[project]
+name = "rag-lab"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Valentyn Semenovych",email = "sonik2001www@gmail.com"}
+]
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi (>=0.129.2,<0.130.0)",
+    "uvicorn[standard] (>=0.41.0,<0.42.0)",
+    "pydantic-settings (>=2.13.1,<3.0.0)"
+]
+
+[tool.poetry]
+packages = [
+    { include = "rag_lab", from = "src" }
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = [
+    "ruff (>=0.15.2,<0.16.0)",
+    "black (>=26.1.0,<27.0.0)",
+    "mypy (>=1.19.1,<2.0.0)",
+    "pytest (>=9.0.2,<10.0.0)"
+]
