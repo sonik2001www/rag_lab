@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from src.rag_lab.api.routers import router as api_router
+from rag_lab.api.routers import router as api_router
 
 app = FastAPI(title="RAG Lab", version="0.1.0")
 

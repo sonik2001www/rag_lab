@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from src.rag_lab.api.v1.endpoints import chat
+from rag_lab.api.v1.endpoints import chat
 
 router = APIRouter(prefix="/v1")
 
