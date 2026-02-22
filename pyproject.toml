@@ -5,12 +5,19 @@ description = ""
 authors = [
     {name = "Valentyn Semenovych",email = "sonik2001www@gmail.com"}
 ]
-requires-python = ">=3.13"
+requires-python = ">=3.13,<4.0"
 dependencies = [
     "fastapi (>=0.129.2,<0.130.0)",
     "uvicorn[standard] (>=0.41.0,<0.42.0)",
     "pydantic-settings (>=2.13.1,<3.0.0)",
-    "httpx (>=0.28.1,<0.29.0)"
+    "httpx (>=0.28.1,<0.29.0)",
+    "python-multipart (>=0.0.20,<0.0.21)",
+    "pypdf (>=6.1.2,<7.0.0)",
+    "langchain (>=1.0.8,<2.0.0)",
+    "langchain-text-splitters (>=1.0.0,<2.0.0)",
+    "langchain-chroma (>=1.0.0,<2.0.0)",
+    "langchain-huggingface (>=1.0.1,<2.0.0)",
+    "sentence-transformers (>=5.1.2,<6.0.0)"
 ]
 
 [tool.poetry]

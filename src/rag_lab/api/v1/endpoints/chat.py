@@ -1,16 +1,16 @@
 from fastapi import APIRouter, HTTPException
 
-from rag_lab.schemas.chat import ChatRequest, ChatResponse
-from rag_lab.services.chat_service import ChatServiceError, generate_answer
+from rag_lab.schemas.rag_chat import RAGChatRequest, RAGChatResponse
+from rag_lab.services.rag_service import RAGServiceError, answer_with_rag
 
 router = APIRouter(prefix="/ollama/chat", tags=["chat"])
 
 
-@router.post("/chat", response_model=ChatResponse)
-async def chat(req: ChatRequest) -> ChatResponse:
+@router.post("/chat", response_model=RAGChatResponse)
+async def chat(req: RAGChatRequest) -> RAGChatResponse:
     try:
-        answer = await generate_answer(req.message)
-    except ChatServiceError as exc:
+        rag_result = await answer_with_rag(req.message)
+    except RAGServiceError as exc:
         raise HTTPException(status_code=exc.status_code, detail=exc.detail) from exc
 
-    return ChatResponse(answer=answer)
+    return rag_result
