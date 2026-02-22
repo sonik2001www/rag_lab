@@ -1,29 +1,16 @@
-from fastapi import APIRouter
-from pydantic import BaseModel
-import httpx
+from fastapi import APIRouter, HTTPException
+
+from rag_lab.schemas.chat import ChatRequest, ChatResponse
+from rag_lab.services.chat_service import ChatServiceError, generate_answer
 
 router = APIRouter(prefix="/ollama/chat", tags=["chat"])
 
 
-MODEL = "llama3.1:8b"
-OLLAMA_URL = "http://localhost:11434/api/generate"
-
-
-class ChatRequest(BaseModel):
-    message: str
-
-
-class ChatResponse(BaseModel):
-    answer: str
-
-
 @router.post("/chat", response_model=ChatResponse)
-def chat(req: ChatRequest) -> ChatResponse:
-    r = httpx.post(
-        OLLAMA_URL,
-        json={"model": MODEL, "prompt": req.message, "stream": False},
-        timeout=120,
-    )
-    r.raise_for_status()
-    answer = r.json()["response"]
+async def chat(req: ChatRequest) -> ChatResponse:
+    try:
+        answer = await generate_answer(req.message)
+    except ChatServiceError as exc:
+        raise HTTPException(status_code=exc.status_code, detail=exc.detail) from exc
+
     return ChatResponse(answer=answer)
