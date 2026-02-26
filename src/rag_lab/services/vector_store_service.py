@@ -39,14 +39,7 @@ class VectorStoreService:
     def delete_document(self, doc_id: str) -> None:
         self._store.delete(where={"doc_id": doc_id})
 
-    def upsert_document_chunks(
-        self,
-        *,
-        doc_id: str,
-        file_name: str,
-        stored_path: Path,
-        chunks: list[str],
-    ) -> int:
+    def upsert_document_chunks(self, *, doc_id: str, file_name: str, stored_path: Path, chunks: list[str]) -> int:
         try:
             from langchain_core.documents import Document
         except ModuleNotFoundError as exc:
@@ -55,6 +48,7 @@ class VectorStoreService:
         self.delete_document(doc_id)
         documents: list[Any] = []
         ids: list[str] = []
+
         for index, chunk in enumerate(chunks):
             chunk_id = f"{doc_id}:{index}"
             metadata = {
@@ -73,18 +67,14 @@ class VectorStoreService:
         self._store.add_documents(documents=documents, ids=ids)
         return len(documents)
 
-    def search(
-        self,
-        *,
-        query: str,
-        top_k: int,
-        score_threshold: float,
-    ) -> list[RetrievedChunk]:
+    def search(self, *, query: str, top_k: int, score_threshold: float) -> list[RetrievedChunk]:
         pairs = self._store.similarity_search_with_relevance_scores(query, k=top_k)
         results: list[RetrievedChunk] = []
+
         for document, score in pairs:
             if score < score_threshold:
                 continue
+
             metadata = document.metadata
             results.append(
                 RetrievedChunk(
@@ -95,6 +85,7 @@ class VectorStoreService:
                     text=document.page_content,
                 )
             )
+
         return results
 
 
